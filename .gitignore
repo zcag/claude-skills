@@ -1,0 +1,12 @@
+# Eval workspaces (generated during skill testing)
+*-workspace/
+*/evals/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Temp files
+*.log
+.DS_Store
