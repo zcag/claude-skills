@@ -52,17 +52,40 @@ For each task in STATUS.md that has a ticket ID (e.g., `(BILL-42)`):
 
 1. Show all unsynced tasks (no ticket ID) as a numbered list
 2. Ask: "Which of these should become Jira tickets?" — user picks by number or says "all"
-3. For each confirmed task:
-   - Ask what issue type to use — fetch available types via `getJiraProjectIssueTypesMetadata` and present options (Story, Task, Bug, etc.)
-   - Create the ticket via `createJiraIssue`:
-     - Summary: task subject (strip the `[build]`/`[spike]`/`[clarify]` prefix)
-     - Description: task description from the task list if available, otherwise a brief summary
-     - Issue type: as chosen
-   - Write the ticket ID back into STATUS.md inline: `- [build] Set up Postgres schema (BILL-42)`
-4. Log to DECISIONS.md:
+3. For each confirmed task, create via `createJiraIssue` with a structured description (see Description template below). Default issue type: Task. Only ask if user specifies otherwise.
+4. Write the ticket ID back into STATUS.md inline: `- [build] Set up Postgres schema (BILL-42)`
+5. Log to DECISIONS.md:
    ```
    - YYYY-MM-DD: [source] Synced tasks to Jira: BILL-42, BILL-43, BILL-44
    ```
+
+### Description template
+
+Every ticket description must include:
+
+```
+**Type:** [build | spike | clarify]
+**QA Testable:** [Yes | No] — [one-line reason]
+
+## Description
+What this task is and why it matters. Include any context the assignee needs to pick it up cold.
+
+## Pointers
+- Relevant files, sample data, docs sections, related tickets
+- Where findings/output should go (if a spike or clarify)
+
+## Acceptance Criteria
+- [ ] Specific, verifiable done criteria — not "analyze the thing", but "X is documented in Y"
+```
+
+**QA Testable heuristic:**
+- **Yes** — produces a runnable artifact a tester can interact with (UI, API, CLI output, log file)
+- **No** — internal dev work: analysis spikes, config, scaffolding, research, documentation tasks
+- When in doubt, lean **No** — don't claim testability that isn't real
+
+**Testability label:** add `not-testable` or `testable` via `additional_fields: {"labels": [...]}` so it's filterable in Jira.
+
+**Pointers:** always include file paths, doc section names, and where the output of this task should land. A ticket with no pointers is a ticket someone will ignore.
 
 ---
 

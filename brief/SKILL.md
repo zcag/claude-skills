@@ -22,6 +22,27 @@ If no docs exist: ask what the project is and what they're trying to figure out,
 
 ---
 
+## Assumptions vs. decisions
+
+A **decision** is something explicitly discussed and confirmed — by the user, in prior conversation, or already in DECISIONS.md.
+An **assumption** is something the model filled in to make the plan coherent — not validated, could be wrong.
+
+These are not the same and must never be treated the same.
+
+**In plans and docs:**
+- Technical approaches that haven't been explicitly confirmed belong in PLAN.md marked `[assumed]`, not stated as facts
+- Log them in DECISIONS.md with the `[assumed]` tag so they're visible and trackable
+- `[assumed]` entries should produce `[clarify]` tasks — don't build on them without resolving first
+
+**When moving toward implementation:**
+- Before producing build tasks or skeleton outlines, scan the plan for `[assumed]` entries
+- If any would meaningfully change the shape of the implementation, surface them: name the assumption, explain what it affects, and ask
+- Don't refuse to proceed — just be explicit. A team can choose to proceed on an assumption consciously, that's different from not knowing it's an assumption
+
+**General rule:** when the model chooses something to fill a gap — any domain, any kind of choice — that's an assumption. Name it as one. Don't let it silently become a fact in the next session.
+
+---
+
 ## docs/STATUS.md
 
 The running state snapshot. Updated every session. Always in this order:
@@ -95,11 +116,12 @@ Append-only log of everything decided, clarified, or scoped. Newest first.
 - YYYY-MM-DD: [clarified] ...
 ```
 
-Tags: `[tech]`, `[business]`, `[scope]`, `[clarified]`
-- `[tech]` — technical approach, stack, architecture choices
+Tags: `[tech]`, `[business]`, `[scope]`, `[clarified]`, `[assumed]`
+- `[tech]` — technical approach, stack, architecture choices (explicitly decided)
 - `[business]` — product direction, target users, model
 - `[scope]` — what's in/out of MVP, feature deferrals, phase cuts
 - `[clarified]` — something that was fuzzy and is now resolved
+- `[assumed]` — model filled this in to make progress; not yet validated by the team. Should have a corresponding `[clarify]` task.
 
 **Rules:**
 - Append only — never edit or remove existing entries
@@ -118,6 +140,10 @@ Use TaskCreate for all tasks. Prefix the subject:
 Description: enough context to pick up cold. activeForm: present continuous.
 
 Mirror the current task list in STATUS.md "What's next".
+
+**Avoid task dumps.** When multiple open questions belong to the same area, create one `[clarify]` task for that area and list the sub-questions in the description. A task per question is noise. A task per theme is useful.
+
+**`[build]` tasks that depend on unresolved `[assumed]` entries should be created with a blockedBy relationship to the corresponding `[clarify]` task.** This makes the dependency explicit and prevents implementation from silently inheriting assumptions.
 
 ---
 
@@ -152,6 +178,15 @@ If the project has a Jira project key in DECISIONS.md, mention at the end of eac
 > "Run `/jira-sync` to push new tasks to Jira or pull ticket statuses."
 
 Don't do the sync yourself — that's jira-sync's job.
+
+---
+
+## Implementation sessions
+
+When the session moves from planning into implementing `[build]` tasks, hand off to the git skill:
+- Apply the git skill's conventions for all commit and PR operations throughout the session
+- You don't need to announce this — just follow it
+- The git skill governs: when to commit, message format, branch strategy, PR structure
 
 ---
 

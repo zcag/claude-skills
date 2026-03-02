@@ -38,3 +38,8 @@ Trigger: `/new-project` or describe a new project idea
 Syncs brief tasks with Jira. Pulls ticket statuses back into STATUS.md, pushes new tasks as tickets.
 
 Trigger: `/jira-sync`
+
+### `git`
+Git and GitHub companion for implementation sessions. Governs commit discipline, branch strategy, and PR creation. Applied automatically during `[build]` task implementation from brief — no explicit invocation needed mid-session.
+
+Trigger: `/git` or proactively during implementation
