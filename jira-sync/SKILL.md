@@ -52,7 +52,8 @@ For each task in STATUS.md that has a ticket ID (e.g., `(BILL-42)`):
 
 1. Show all unsynced tasks (no ticket ID) as a numbered list
 2. Ask: "Which of these should become Jira tickets?" — user picks by number or says "all"
-3. For each confirmed task, create via `createJiraIssue` with a structured description (see Description template below). Default issue type: Task. Only ask if user specifies otherwise.
+3. For each confirmed task, create via `createJiraIssue` with a structured description (see Description template below). Default issue type: Task. Only ask if user specifies otherwise. **Do not set an assignee on creation** — tickets are unassigned until someone picks them up.
+4. **Always link to an epic.** Before creating, check DECISIONS.md and STATUS.md for existing epics. If tickets clearly belong to an existing epic, use it. If they span multiple epics or a new phase, decide or ask. Never create a ticket without an epic link — set it via `fields: {"parent": {"key": "PROJ-X"}}` on creation or via `editJiraIssue` after. Note: next-gen (simplified) projects use `parent`; classic projects use `customfield_10014`.
 4. Write the ticket ID back into STATUS.md inline: `- [build] Set up Postgres schema (BILL-42)`
 5. Log to DECISIONS.md:
    ```
