@@ -183,10 +183,9 @@ Don't do the sync yourself — that's jira-sync's job.
 
 ## Implementation sessions
 
-When the session moves from planning into implementing `[build]` tasks, hand off to the git skill:
-- Apply the git skill's conventions for all commit and PR operations throughout the session
-- You don't need to announce this — just follow it
-- The git skill governs: when to commit, message format, branch strategy, PR structure
+**Before writing a single line of implementation code**, you MUST call the Skill tool with `skill: "git"`. This is a blocking requirement — do not start implementing until you have done this.
+
+Do this exactly once at the start of the implementation session. The git skill then governs all git operations: when to commit, message format, branch strategy, PR structure.
 
 ---
 
