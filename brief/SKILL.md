@@ -187,6 +187,18 @@ Don't do the sync yourself — that's jira-sync's job.
 
 Do this exactly once at the start of the implementation session. The git skill then governs all git operations: when to commit, message format, branch strategy, PR structure.
 
+### Subagents for parallel [build] tasks
+
+When implementing multiple `[build]` tasks, consider whether they can run in parallel:
+
+**Parallelize with subagents** when tasks are clearly independent — different files, different modules, no shared state. Use `isolation: "worktree"` so each subagent works on its own branch without interfering. Run them in parallel via a single message with multiple Agent tool calls.
+
+**Keep sequential in main context** when tasks share files, depend on each other's output, or touch the same config/types.
+
+**Minor conflicts after subagents complete:** resolve them in the main context — review each branch, merge, fix the conflicts yourself. Don't try to pre-coordinate across subagents.
+
+When in doubt: run sequentially in the main context. Parallelism is an optimization, not the default.
+
 ---
 
 ## Handoff from new-project
